@@ -2,7 +2,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import confetti from 'canvas-confetti'
 import './App.css'
 
-const GIF_URLS = ['/cat.gif', '/1.gif', '/2.gif', '/3.gif', '/4.gif']
+const QUESTION_GIFS = ['/1.gif', '/2.gif', '/3.gif']
+const ACCEPTED_GIFS = ['/c1.gif', '/c2.gif', '/c3.gif', '/c4.gif']
 
 type Pos = { x: number; y: number }
 
@@ -20,13 +21,14 @@ const App = () => {
 
     // Preload all gifs
     useEffect(() => {
+        const allGifs = [...QUESTION_GIFS, ...ACCEPTED_GIFS]
         let loadedCount = 0
-        GIF_URLS.forEach(url => {
+        allGifs.forEach(url => {
             const img = new Image()
             img.src = url
             img.onload = () => {
                 loadedCount++
-                if (loadedCount === GIF_URLS.length) {
+                if (loadedCount === allGifs.length) {
                     setGifLoaded(true)
                 }
             }
@@ -37,12 +39,19 @@ const App = () => {
     useEffect(() => {
         if (!gifLoaded) return
 
+        const currentGifs = accepted ? ACCEPTED_GIFS : QUESTION_GIFS
+        
         const interval = setInterval(() => {
-            setCurrentGifIndex(prev => (prev + 1) % GIF_URLS.length)
+            setCurrentGifIndex(prev => (prev + 1) % currentGifs.length)
         }, 3000)
 
         return () => clearInterval(interval)
-    }, [gifLoaded])
+    }, [gifLoaded, accepted])
+
+    // Reset gif index when accepted state changes
+    useEffect(() => {
+        setCurrentGifIndex(0)
+    }, [accepted])
 
     const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v))
 
@@ -357,7 +366,7 @@ const App = () => {
             </div>
 
             <img
-                src={GIF_URLS[currentGifIndex]}
+                src={(accepted ? ACCEPTED_GIFS : QUESTION_GIFS)[currentGifIndex]}
                 alt="Cute hugging bears with hearts"
                 className="w-44 h-44 object-cover rounded-2xl shadow-md mb-5"
                 loading="eager"
