@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import confetti from 'canvas-confetti'
 import './App.css'
 
-const GIF_URL = 'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDR6YjJ6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6OHp6/MDJ9IbxxvDUQM/giphy.gif'
+const GIF_URLS = ['/cat.gif', '/1.gif', '/2.gif', '/3.gif', '/4.gif']
 
 type Pos = { x: number; y: number }
 
@@ -16,12 +16,33 @@ const App = () => {
     const [accepted, setAccepted] = useState(false)
     const [gifLoaded, setGifLoaded] = useState(false)
     const [initialPlaced, setInitialPlaced] = useState(false)
+    const [currentGifIndex, setCurrentGifIndex] = useState(0)
 
+    // Preload all gifs
     useEffect(() => {
-        const img = new Image()
-        img.src = GIF_URL
-        img.onload = () => setGifLoaded(true)
+        let loadedCount = 0
+        GIF_URLS.forEach(url => {
+            const img = new Image()
+            img.src = url
+            img.onload = () => {
+                loadedCount++
+                if (loadedCount === GIF_URLS.length) {
+                    setGifLoaded(true)
+                }
+            }
+        })
     }, [])
+
+    // Cycle through gifs every 3 seconds
+    useEffect(() => {
+        if (!gifLoaded) return
+
+        const interval = setInterval(() => {
+            setCurrentGifIndex(prev => (prev + 1) % GIF_URLS.length)
+        }, 3000)
+
+        return () => clearInterval(interval)
+    }, [gifLoaded])
 
     const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v))
 
@@ -336,7 +357,7 @@ const App = () => {
             </div>
 
             <img
-                src={GIF_URL}
+                src={GIF_URLS[currentGifIndex]}
                 alt="Cute hugging bears with hearts"
                 className="w-44 h-44 object-cover rounded-2xl shadow-md mb-5"
                 loading="eager"
