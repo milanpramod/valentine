@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+body {
+  overflow: hidden;
+  touch-action: none;
+}
+
+button {
+  transition: left 0.3s ease-out, top 0.3s ease-out, transform 0.1s ease;
+}
+
+.bg-valentine {
+  background-image:
+    radial-gradient(80vmin 80vmin at 8% 8%, rgba(255, 192, 203, 0.5), transparent 55%),
+    radial-gradient(70vmin 70vmin at 92% 20%, rgba(255, 182, 193, 0.45), transparent 60%),
+    radial-gradient(85vmin 85vmin at 15% 85%, rgba(255, 214, 224, 0.42), transparent 62%),
+    radial-gradient(60vmin 60vmin at 85% 80%, rgba(255, 192, 203, 0.38), transparent 58%),
+    radial-gradient(50vmin 50vmin at 50% 50%, rgba(255, 218, 224, 0.25), transparent 70%),
+    linear-gradient(135deg, #fff0f5 0%, #ffe4e1 50%, #ffeef5 100%);
+}
+
+.heart {
+  position: absolute;
+  opacity: 0.25;
+  fill: #ff8fa3;
+  filter: drop-shadow(0 2px 4px rgba(255, 105, 180, 0.2));
+  animation: float 7s ease-in-out infinite, pulse 3s ease-in-out infinite;
+}
+
+.sparkle {
+  position: absolute;
+  opacity: 0.18;
+  fill: #ffc0d4;
+  filter: drop-shadow(0 1px 3px rgba(255, 105, 180, 0.2));
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+.star {
+  position: absolute;
+  opacity: 0.2;
+  fill: #ffb3d9;
+  filter: drop-shadow(0 2px 3px rgba(255, 182, 193, 0.25));
+  animation: rotate-twinkle 6s ease-in-out infinite;
+}
+
+.flower {
+  position: absolute;
+  opacity: 0.22;
+  filter: drop-shadow(0 2px 4px rgba(255, 105, 180, 0.15));
+  animation: sway 8s ease-in-out infinite;
+}
+
+.cloud {
+  position: absolute;
+  opacity: 0.6;
+  filter: drop-shadow(0 2px 6px rgba(255, 192, 203, 0.2));
+  animation: drift 20s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%   { transform: translateY(0) scale(1); }
+  50%  { transform: translateY(-12px) scale(1.06); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 0.35; }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.9) rotate(0deg); }
+  50%      { opacity: 0.32; transform: scale(1.2) rotate(180deg); }
+}
+
+@keyframes rotate-twinkle {
+  0%, 100% { opacity: 0.18; transform: rotate(0deg) scale(1); }
+  25%      { opacity: 0.28; transform: rotate(90deg) scale(1.1); }
+  50%      { opacity: 0.22; transform: rotate(180deg) scale(0.95); }
+  75%      { opacity: 0.3; transform: rotate(270deg) scale(1.08); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25%      { transform: translateX(8px) rotate(5deg); }
+  50%      { transform: translateX(0) rotate(0deg); }
+  75%      { transform: translateX(-8px) rotate(-5deg); }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(15px); }
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-8deg); }
+  75%      { transform: rotate(8deg); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 0.7; transform: scale(1.1); }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 10s linear infinite;
+}
+
+.animate-wiggle {
+  animation: wiggle 3s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2.5s ease-in-out infinite;
+}
